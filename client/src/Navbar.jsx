@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
         <div className="container-fluid nav_bg">
             <div className="rows">
                 <div className='col-12 mx-auto'>
-                    <nav className="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+                    <nav className="navbar navbar-expand-lg fixed-top  navbar-light bg-light">
                         <div className="container-fluid">
                             <NavLink exact  className="navbar-brand" to="/"> Smart Home </NavLink>
                             <button className="navbar-toggler" 

@@ -24,8 +24,7 @@ app.get('/api/get/:room/:date', (req,res) => {
     // let sqlSelect = `select * from ${table_name} where Time between "${start_hour}" and "${end_hour}"`
     let sqlSelect = `select * from ${table_name} where Time Like "${date}%";`
     db.query(sqlSelect, (err,result) => {
-        if(err) throw err;
-        res.send(result);
+        (err) ? console.log(err) : res.send(result); 
     })
 
 });

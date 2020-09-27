@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 export default function Modal() {
     return (
         <>
         <button type="button" 
-            className="btn btn-outline-primary col-3" 
+            className="modalshow btn btn-outline-primary col-3" 
             data-toggle="modal" 
             data-target="#myModal">
             Know more
