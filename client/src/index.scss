@@ -35,22 +35,6 @@
 
 }
 
-
-
-/* Footer */
-footer {
-
-  & p{
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    background-color: transparent;
-  }
-
-}
-
 @mixin pagesetup($width,$margintop){
   width: 100%;
   height: $width;

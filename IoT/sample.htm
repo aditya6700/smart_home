@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+   <title>RPi Web Server</title>
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+   <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+      	var socket = io.connect('http://' + document.domain + ':' + location.port);
+      	socket.on('connect', function() {
+          socket.emit('my event', {data: 'I\'m connected!'});
+      	});
+      	socket.on('dht_temperature', function(msg) {
+	  var nDate = new Date();
+          $('#readingsUpdated').text(nDate.getHours() + 'h:' + nDate.getMinutes() +
+             'm:' + nDate.getSeconds() + 's').html();
+          $('#temperature').text(msg.data).html();
+      	});
+      	socket.on('dht_humidity', function(msg) {
+          $('#humidity').text(msg.data).html();
+      	});
+      });
+   </script>
+</head>
+
+<body>
+   <h1>RPi Web Server - ESP8266 MQTT</h1>
+   {% for pin in pins %}
+   <h2>{{ pins[pin].name }}
+   {% if pins[pin].state == 'True' %}
+      is currently <strong>on</strong></h2><div class="row"><div class="col-md-2">
+      <a href="/esp8266/{{pin}}/0" class="btn btn-block btn-lg btn-default" role="button">Turn off</a></div></div>
+   {% else %}
+      is currently <strong>off</strong></h2><div class="row"><div class="col-md-2">
+      <a href="/esp8266/{{pin}}/1" class="btn btn-block btn-lg btn-primary" role="button">Turn on</a></div></div>
+   {% endif %}
+   {% endfor %}
+   <h3>DHT Readings (updated <span id="readingsUpdated"></span>)</h3>
+   <h3>Temperature: <span id="temperature"></span>ºC</h3>
+   <h3>Humidity: <span id="humidity"></span>%</h3>
+</body>
+</html>
+
+
+
+<html lang="en">
+    <head>
+      <meta charset="utf-8"/>
+      <title>Websocket</title>
+    </head>
+    <body>
+    <input style="width: 800px;height: 200px" type="text" placeholder="enter text here to send to server" id="eingabe" onkeypress="myFunction(event)"/>
+    <button onclick="clearlog()">Clear Logs</button>
+    <div style="overflow:scroll; width: 800px; height: 550px; border: solid; border-radius: 9px" id="display"></div>
+      <script>
+      //var sock =new WebSocket("ws://localhost:5001");
+      var sock =new WebSocket("ws://192.168.1.23:3000");  //replace this address with the one the node.js server prints out. keep port 3000
+      var display=document.getElementById("display")
+      
+      sock.onopen=function(event){
+      //alert("Socket connected succesfully!!!")
+      setTimeout(function(){sock.send('connection succeeded');},1000);
+      display.innerHTML+="connection succeeded <br />";
+      };
+      sock.onmessage=function(event){
+      console.log(event);//show received from server data in console of browser
+      display.innerHTML+=event.data+"<br />"; //add incoming message from server to the log screen previous string + new string(message)
+     }
+      
+    function myFunction(event) {
+        //sock.send("Hello");
+    if(event.keyCode==13){     //when enter is pressed...
+      var text=document.getElementById('eingabe').value;    //assign value of the entered string to te text variable
+      if(text!=""){     //if text is not an empty string
+      //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
+    sock.send(text);    //send string to server
+    display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
+    document.getElementById('eingabe').value="";     //and clear the input field
+    }
+    else{
+    console.log("empty string not sent")
+    }
+    }}
+    function clearlog(){
+    display.innerHTML="";
+    }
+      </script>
+    </body>
+    </html>
