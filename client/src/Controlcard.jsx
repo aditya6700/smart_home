@@ -1,7 +1,23 @@
-import React from 'react'
+import React from 'react';
+import Axios from 'axios'
 
+export default function Common({device, status, type, readings, room }) {
+ 
+    const handleOff = (room, device) => {
+        console.log(room, device," OFF")
+        Axios.post(`http://localhost:1432/api/esp8266/off`,{
+            selectedRoom: room,
+            selectedDevice: device,
+        })
+    }
 
-export default function Common({device, status, type, readings }) {
+    const handleOn = (room, device) => {
+        console.log(room, device," ON")
+        Axios.post(`http://localhost:1432/api/esp8266/on`,{
+            selectedRoom: room,
+            selectedDevice: device,
+        })
+    }
     return (
         <>
         <div className="col-md-4 col-10 mx-auto">
@@ -13,8 +29,13 @@ export default function Common({device, status, type, readings }) {
                     <span style={{fontSize:"20px", color: status === "ON" ? "green" : "red" }}> {status} </span> </p>
 
                     {type === "Applaince" ? <>
-                    <button type="button" className="btn btn-outline-success">ON</button>
-                    <button type="button" className="btn btn-outline-danger">OFF</button>
+                    <button type="button" 
+                        id="on"
+                        className="btn btn-outline-success"
+                        onClick={() => handleOn(room,device) } >ON</button>
+                    <button type="button" 
+                        className="btn btn-outline-danger"
+                        onClick={() => handleOff(room,device)} >OFF</button>
                      </> :
                       <>
                       <p className="card-text"> {device} in this room is {readings} </p>

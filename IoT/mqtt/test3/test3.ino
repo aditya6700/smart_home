@@ -5,6 +5,8 @@
 #include <ESP8266WiFi.h>   
 #include "Adafruit_MQTT.h"   
 #include "Adafruit_MQTT_Client.h"   
+
+#include <ArduinoJson.h>
 /************************* WiFi Access Point *********************************/   
 #define WLAN_SSID "Area 51"   
 #define WLAN_PASS "WF647241BB1"   
@@ -12,8 +14,13 @@
 #define MQTT_PORT 1883    
 #define MQTT_USERNAME ""   
 #define MQTT_PASSWORD ""   
-#define LED_PIN D3 // Pin connected to the LED. GPIO 2 (D4)   
-#define BUTTON_PIN D1 // Pin connected to the button. GPIO 15 (D8)   
+
+/************ PIN DEFINITIONS ******************/  
+#define LIGHT1 D1  
+#define LIGHT2 D2 
+#define FAN1   D3  
+#define FAN2   D5 
+#define AC     D6
 /************ Global State ******************/   
 // Create an ESP8266 WiFiClient class to connect to the MQTT server.   
 WiFiClient client;   
@@ -23,16 +30,31 @@ Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_PORT, MQTT_USERNAME, MQTT_P
 // Setup a feed called 'pi_led' for publishing.   
 // Notice MQTT paths for AIO follow the form: <username>/feeds/<feedname>   
 Adafruit_MQTT_Publish pi_led = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/leds/pi");   
-// Setup a feed called 'esp8266_led' for subscribing to changes.   
-Adafruit_MQTT_Subscribe esp8266_led = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/leds/esp8266");   
+
+// Setup a feed called 'esp8266_con' for subscribing to changes.   
+Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom");
+
+//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/Light 2");
+//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/FAN 1");
+//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/FAN 2");
+//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/Air Conditioner");   
 /*************************** Sketch Code ************************************/   
 void MQTT_connect();   
 
 void setup() {   
      Serial.begin(115200);   
      delay(10);   
-     pinMode(LED_BUILTIN, OUTPUT);   
-     digitalWrite(LED_BUILTIN, LOW);   
+     pinMode(LIGHT1, OUTPUT);
+     pinMode(LIGHT2, OUTPUT);
+     pinMode(FAN1, OUTPUT);
+     pinMode(FAN2, OUTPUT);
+     pinMode(AC, OUTPUT);   
+
+     digitalWrite(LIGHT1,  LOW);
+     digitalWrite(LIGHT2,  LOW);
+     digitalWrite(FAN1,  LOW);
+     digitalWrite(FAN2,  LOW);
+     digitalWrite(AC,  LOW);
  
     
      Serial.println(F("RPi-ESP-MQTT"));   
@@ -48,52 +70,85 @@ void setup() {
      Serial.println();   
      Serial.println("WiFi connected");   
      Serial.println("IP address: "); Serial.println(WiFi.localIP());   
-     // Setup MQTT subscription for esp8266_led feed.   
-     mqtt.subscribe(&esp8266_led);   
+     // Setup MQTT subscription for esp8266_con feed.   
+     mqtt.subscribe(&esp8266_con);   
 }   
 
 uint32_t x=0;   
 void loop() {   
-    if(Serial.available()>0)
-    {
-       String message = Serial.readString();
-       Serial.println("Data sent");   
-       pi_led.publish(message); 
-    }
-      
-     // Ensure the connection to the MQTT server is alive (this will make the first   
-     // connection and automatically reconnect when disconnected). See the MQTT_connect   
+//    if(Serial.available()>0)
+//    {
+//       String message = Serial.readString();
+//       Serial.println("Data sent");   
+//       pi_led.publish(message); 
+//    }
+
      MQTT_connect();   
-     // this is our 'wait for incoming subscription packets' busy subloop   
-     // try to spend your time here   
-     // Here its read the subscription   
+ 
      Adafruit_MQTT_Subscribe *subscription;   
      while ((subscription = mqtt.readSubscription())) {   
-      if (subscription == &esp8266_led) {   
-        char *message = (char *)esp8266_led.lastread;   
+      if (subscription == &esp8266_con) {   
+        char *message = (char *)esp8266_con.lastread;   
         Serial.print(F("Got: "));   
         Serial.println(message);   
-        // Check if the message was ON, OFF, or TOGGLE.   
-        if (strncmp(message, "ON", 2) == 0) {   
-            // Turn the LED on.   
-            digitalWrite(LED_PIN, HIGH);   
-        }   
-        else if (strncmp(message, "OFF", 3) == 0) {   
-            // Turn the LED off.   
-            digitalWrite(LED_PIN, LOW);   
-        }   
-        else if (strncmp(message, "TOG", 3) == 0) {   
-           // Toggle the LED.   
-           digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));   
-         }   
+       
+          DynamicJsonDocument doc(200);
+        // deserialize the data
+        DeserializationError error = deserializeJson(doc, message);
+        // parse the parameters we expect to receive (TO-DO: error handling)
+          // Test if parsing succeeds.
+        if (error) {
+          Serial.print("deserializeJson() failed: ");
+          Serial.println(error.c_str());
+          return;
+        }
+//        String DeviceType = doc["device"];
+//        String DeviceStatus = doc["status"];
+//        if (strncmp( DeviceType ,"Light 1", 7) == 0)
+//            digitalWrite(LIGHT1,DeviceStatus);
+//        else if (strncmp( DeviceType, "Light 2", 7) == 0)
+//            digitalWrite(LIGHT2,DeviceStatus);
+//        else if (strncmp( DeviceType,"Fan 1", 5) == 0)
+//            digitalWrite(FAN1,DeviceStatus);
+//        else if (strncmp( DeviceType, "Fan 2", 5) == 0)
+//            digitalWrite(FAN2,DeviceStatus);
+//        else if (strncmp( DeviceType, "Air Conditioner", 15) == 0)
+//            digitalWrite(AC,DeviceStatus);
+
+        String DeviceType = doc["device"];
+        uint8_t DeviceStatus = doc["status"];
+        if ( DeviceType == "Light 1" )
+            digitalWrite(LIGHT1,DeviceStatus); 
+//              Serial.println(DeviceStatus );
+        else if ( DeviceType == "Light 2" )
+            digitalWrite(LIGHT2,DeviceStatus);
+//              Serial.println( DeviceType);
+        else if ( DeviceType == "Fan 1" )
+            digitalWrite(FAN1,DeviceStatus);
+//              Serial.println(DeviceStatus );
+        else if ( DeviceType == "Fan 2" )
+            digitalWrite(FAN2,DeviceStatus);
+//              Serial.println(DeviceStatus);
+        else if ( DeviceType == "Air Conditioner" )
+            digitalWrite(AC,DeviceStatus);
+//              Serial.println(DeviceType);
+      
+//          int LIGHT1_status = doc["LIGHT1"];
+//          int LIGHT2_status = doc["LIGHT2"];
+//          int FAN1_status = doc["FAN1"];
+//          int FAN2_status = doc["FAN2"];
+//          int AC_status = doc["AC"];
+          
+          
+          
+        
+         
       }   
     }   
    delay(20);   
-    
-   
-        
+       
    }   
- }   
+  
 // Function to connect and reconnect as necessary to the MQTT server.   
 void MQTT_connect() {   
      int8_t ret;   

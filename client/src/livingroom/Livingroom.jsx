@@ -4,7 +4,6 @@ import LivingData from './LivingData';
 
 
 export default function Livingroom() {
-    
     return (
         <>
         <section id="rooms">
@@ -27,6 +26,7 @@ export default function Livingroom() {
                                     status={value.status}
                                     type={value.type}
                                     readings={value.readings}
+                                    room={value.room}
                               />
                             }else return null
                           })

@@ -22,6 +22,7 @@ export default function Bedroom2() {
                                     status={value.status}
                                     type={value.type}
                                     readings={value.readings}
+                                    room={value.room}
                               />
                             } else return null
                           })
