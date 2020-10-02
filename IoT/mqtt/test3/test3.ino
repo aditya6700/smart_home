@@ -33,11 +33,7 @@ Adafruit_MQTT_Publish pi_led = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME "/leds
 
 // Setup a feed called 'esp8266_con' for subscribing to changes.   
 Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom");
-
-//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/Light 2");
-//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/FAN 1");
-//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/FAN 2");
-//Adafruit_MQTT_Subscribe esp8266_con = Adafruit_MQTT_Subscribe(&mqtt, MQTT_USERNAME "/esp8266/livingroom/Air Conditioner");   
+  
 /*************************** Sketch Code ************************************/   
 void MQTT_connect();   
 
@@ -76,12 +72,6 @@ void setup() {
 
 uint32_t x=0;   
 void loop() {   
-//    if(Serial.available()>0)
-//    {
-//       String message = Serial.readString();
-//       Serial.println("Data sent");   
-//       pi_led.publish(message); 
-//    }
 
      MQTT_connect();   
  
@@ -102,24 +92,11 @@ void loop() {
           Serial.println(error.c_str());
           return;
         }
-//        String DeviceType = doc["device"];
-//        String DeviceStatus = doc["status"];
-//        if (strncmp( DeviceType ,"Light 1", 7) == 0)
-//            digitalWrite(LIGHT1,DeviceStatus);
-//        else if (strncmp( DeviceType, "Light 2", 7) == 0)
-//            digitalWrite(LIGHT2,DeviceStatus);
-//        else if (strncmp( DeviceType,"Fan 1", 5) == 0)
-//            digitalWrite(FAN1,DeviceStatus);
-//        else if (strncmp( DeviceType, "Fan 2", 5) == 0)
-//            digitalWrite(FAN2,DeviceStatus);
-//        else if (strncmp( DeviceType, "Air Conditioner", 15) == 0)
-//            digitalWrite(AC,DeviceStatus);
 
         String DeviceType = doc["device"];
         uint8_t DeviceStatus = doc["status"];
         if ( DeviceType == "Light 1" )
             digitalWrite(LIGHT1,DeviceStatus); 
-//              Serial.println(DeviceStatus );
         else if ( DeviceType == "Light 2" )
             digitalWrite(LIGHT2,DeviceStatus);
 //              Serial.println( DeviceType);
