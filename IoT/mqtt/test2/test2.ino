@@ -8,7 +8,7 @@
 /************************* WiFi Access Point *********************************/   
 #define WLAN_SSID  "Area 51"   
 #define WLAN_PASS  "WF647241BB1"   
-#define MQTT_SERVER "192.168.0.125" // static ip address  
+#define MQTT_SERVER "192.168.0.193" // static ip address  
 #define MQTT_PORT 1883    
 #define MQTT_USERNAME ""   
 #define MQTT_PASSWORD ""   
@@ -32,7 +32,7 @@ void setup() {
      Serial.begin(115200);   
      delay(10);   
      pinMode(LED_BUILTIN, OUTPUT);   
-     digitalWrite(LED_BUILTIN, LOW);   
+     digitalWrite(LED_BUILTIN, HIGH);   
      // Setup button as an input with internal pull-up.   
      pinMode(BUTTON_PIN, INPUT);   
      Serial.println(F("RPi-ESP-MQTT"));   
@@ -88,6 +88,10 @@ void loop() {
    if ((button_first == HIGH) && (button_second == LOW)) {   
       // Button was pressed!   
       Serial.println("Button pressed!");   
+
+
+
+      
       pi_led.publish("TOGGLE");   
    }   
  }   

@@ -10,7 +10,7 @@
 /************************* WiFi Access Point *********************************/   
 #define WLAN_SSID "Area 51"   
 #define WLAN_PASS "WF647241BB1"   
-#define MQTT_SERVER "192.168.0.125" // static ip address  
+#define MQTT_SERVER "192.168.0.193" // static ip address  
 #define MQTT_PORT 1883    
 #define MQTT_USERNAME ""   
 #define MQTT_PASSWORD ""   

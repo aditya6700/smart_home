@@ -25,13 +25,12 @@ app.get('/api/get/:room/:date', (req,res) => {
     let [start_hour, end_hour, table_name] =[`${date} 00:00:00`, `${date} 23:00:00`, room]
     console.log(room,date,start_hour,end_hour)
     // let sqlSelect = `select * from ${table_name} where Time between "${start_hour}" and "${end_hour}"`
-    // let sqlSelect = `select * from ${table_name} where Time Like "${date}%";`
-    let sqlSelect = `select * from ${table_name} where Time Like "2020-09-21%";`
+    let sqlSelect = `select * from ${table_name} where Time Like "${date}%";`
+    // let sqlSelect = `select * from ${table_name} where Time Like "2020-09-21%";`
 
     db.query(sqlSelect, (err,result) => {
-        
         (err) ? console.log(err) : res.json(result); 
-        console.log(typeof result)
+        // console.log(typeof result)
     })
     
 });

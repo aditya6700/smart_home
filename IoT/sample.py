@@ -82,3 +82,13 @@
 #    socketio.run(app, host='0.0.0.0', port=8181, debug=True)
 
  
+arr = []
+
+print(arr,end='\n')
+
+arr2 = [{"type":"Applaince","device":"Fan 1","status":"OFF"},{"type":"Applaince","device":"Fan 2","status":"OFF"},{"type":"Applaince","device":"Light 1","status":"ON"},{"type":"Applaince","device":"Light 2","status":"OFF"}]
+print(arr2,end='\n')
+
+arr = arr2
+
+print(arr,end='\n')
