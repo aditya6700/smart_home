@@ -117,7 +117,7 @@ void loop() {
 //      			obj6["id"] = 6;
       			obj6["room"] = "livingroom";
       			obj6["type"] = "Sensor";
-      			obj6["device"] = "Temparature";
+      			obj6["device"] = "Temperature";
       			obj6["status"] = "ON";
       			obj6["readings"] =  28.6  ;
 
@@ -151,10 +151,10 @@ void loop() {
     int c = Serial.read();
     if (c == '1'){
       
-  		bool p1 = livingroom.publish(json_string1);	delay(2000);
-  		bool p2 = livingroom.publish(json_string2);	delay(2000);
-  		bool p3 = livingroom.publish(json_string3);	delay(2000);
-  		bool p4 = livingroom.publish(json_string4);	delay(2000);
+  		bool p1 = livingroom.publish(json_string1);	delay(1000);
+  		bool p2 = livingroom.publish(json_string2);	delay(1000);
+  		bool p3 = livingroom.publish(json_string3);	delay(1000);
+  		bool p4 = livingroom.publish(json_string4);	delay(1000);
  
       if( p1 && p2 && p3 && p4)
       Serial.println("published");
@@ -162,10 +162,10 @@ void loop() {
     }
     if (c == '2'){
       
-      bool p1 = bedroom1.publish(json_string1); delay(2000);
-      bool p2 = bedroom1.publish(json_string2); delay(2000);
-      bool p3 = bedroom1.publish(json_string3); delay(2000);
-      bool p4 = bedroom1.publish(json_string4); delay(2000);
+      bool p1 = bedroom1.publish(json_string1); delay(1000);
+      bool p2 = bedroom1.publish(json_string2); delay(1000);
+      bool p3 = bedroom1.publish(json_string3); delay(1000);
+      bool p4 = bedroom1.publish(json_string4); delay(1000);
  
       if( p1 && p2 && p3 && p4)
       Serial.println("published");
@@ -173,10 +173,10 @@ void loop() {
     }
     if (c == '3'){
       
-      bool p1 = bedroom2.publish(json_string1); delay(2000);
-      bool p2 = bedroom2.publish(json_string2); delay(2000);
-      bool p3 = bedroom2.publish(json_string3); delay(2000);
-      bool p4 = bedroom2.publish(json_string4); delay(2000);
+      bool p1 = bedroom2.publish(json_string1); delay(1000);
+      bool p2 = bedroom2.publish(json_string2); delay(1000);
+      bool p3 = bedroom2.publish(json_string3); delay(1000);
+      bool p4 = bedroom2.publish(json_string4); delay(1000);
  
       if( p1 && p2 && p3 && p4)
       Serial.println("published");

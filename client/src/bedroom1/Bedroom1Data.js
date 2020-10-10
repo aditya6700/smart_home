@@ -20,7 +20,7 @@ let Bedroom1Data = [
         room: "bedroom1",
         type: "Applaince",
         device: "Light 1",
-        status: "ON",
+        status: "OFF",
         readings : null,
     },
     {

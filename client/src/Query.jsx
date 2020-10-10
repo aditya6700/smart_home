@@ -41,7 +41,7 @@ export default function Query() {
     return (
         <>
         <div className="my-5 pt-5">
-            <h1 className="text-center"> Technical Word goes here </h1>
+            <h1 className="text-center"> Wanna know About Your Home ? </h1>
         </div>  
          <div className="container fluid mb-5">
             <div className="row">  

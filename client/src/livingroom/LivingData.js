@@ -1,19 +1,11 @@
 let LivingData = [
     {
-        id: 1,
+        id: 2,
         room: 'livingroom',
         type: "Applaince",
         device: "Fan 1",
         status: "OFF",
         readings : null,
-    },
-    {
-        id: 2,
-        room: 'livingroom',
-        type: "Applaince",
-        device: "Fan 2",
-        status: "OFF",
-        readings: null,
     },
     {
         id: 3,
@@ -43,9 +35,9 @@ let LivingData = [
         id: 6,
         room: 'livingroom',
         type: "Sensor",
-        device: "Temparature",
+        device: "Temperature",
         status: "ON",
-        readings:  28.6 + " celcius" ,
+        readings:  28.6,
     },
     {
         id: 7,
@@ -59,17 +51,17 @@ let LivingData = [
         id: 8,
         room: 'livingroom',
         type: "Sensor",
-        device: "Gas Level",
+        device: "Gas",
         status: "ON",
         readings:  400 + "imp",
     },
     {
         id: 9,
         room: 'livingroom',
-        type: null,
-        device: null,
-        status: null,
-        readings:  null,
+        type: 'Sensor',
+        device: 'Smoke',
+        status: "ON",
+        readings: 326,
     },
 ];
 

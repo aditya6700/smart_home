@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Axios from 'axios'
 
 export default function Common({device, status, type, readings, room }) {
+    const [butttonState, setButtonState] = useState(status);
  
     const handleOff = (room, device) => {
         console.log(room, device," OFF")
         Axios.post(`http://localhost:1432/api/esp8266/off`,{
             selectedRoom: room,
             selectedDevice: device,
-        })
+        });
+        setButtonState("OFF");
     }
 
     const handleOn = (room, device) => {
@@ -16,8 +18,11 @@ export default function Common({device, status, type, readings, room }) {
         Axios.post(`http://localhost:1432/api/esp8266/on`,{
             selectedRoom: room,
             selectedDevice: device,
-        })
+        });
+        setButtonState("ON");
     }
+
+    
     return (
         <>
         <div className="col-md-4 col-10 mx-auto">
@@ -26,7 +31,7 @@ export default function Common({device, status, type, readings, room }) {
                 <div className="card-body text-primary justify-content-center ">
                     <h5 className="card-title"> {device} </h5>
                     <p className="card-text">Your device status is 
-                    <span style={{fontSize:"20px", color: status === "ON" ? "green" : "red" }}> {status} </span> </p>
+                    <span style={{fontSize:"20px", color: butttonState === "ON" ? "green" : "red" }}> {butttonState} </span> </p>
 
                     {type === "Applaince" ? <>
                     <button type="button" 

@@ -4,7 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql')
 const mqtt = require('mqtt');
 
-var client = mqtt.connect('mqtt://192.168.0.125:1883');
+var client = mqtt.connect('mqtt://192.168.0.193:1883');
 
 const app = express();
 app.use(cors());

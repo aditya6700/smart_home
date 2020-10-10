@@ -1,7 +1,9 @@
 import React from 'react';
-import home from './images/home.jpg';
+// import home from './images/home.jpg';
 import home1 from './images/smarthome.jpg';
-import home2 from './images/Untitled.png';
+import hm1 from './images/1 (5).jpeg';
+import hm2 from './images/1 (5).jpg'
+import home from './images/iot.png'
 
 export default function Carousel() {
     return (
@@ -16,13 +18,13 @@ export default function Carousel() {
 
             <div className="carousel-inner">
                 <div className="carousel-item active">
-                    <img className="d-block w-100" src={home2} alt="First slide"/>
+                    <img className="d-block w-100" src={hm1} alt="First slide"/>
                 </div>
                 <div className="carousel-item">
                     <img className="d-block w-100" src={home1} alt="Second slide"/>
                 </div>
                 <div className="carousel-item">
-                    <img className="d-block w-100" src={home1} alt="Third slide"/>
+                    <img className="d-block w-100" src={hm2} alt="Third slide"/>
                 </div>
                 <div className="carousel-item">
                     <img className="d-block w-100" src={home} alt="Fourth slide"/>
