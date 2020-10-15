@@ -7,14 +7,14 @@ let Bedroom2Data = [
         status: "OFF",
         readings : null,
     },
-    {
+  /*  {
         id: 2,
         room: "bedroom2",
         type: "Applaince",
         device: "Fan 2",
         status: "OFF",
         readings: null,
-    },
+    },*/
     {
         id: 3,
         room: "bedroom2",
