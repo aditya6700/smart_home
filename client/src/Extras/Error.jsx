@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import errorimg from './images/errorimg.png';
+import errorimg from '../images/errorimg.png';
 
 export default function Error() {
     return (

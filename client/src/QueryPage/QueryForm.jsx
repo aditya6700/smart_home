@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 
-
 const updateDate = () => {
     var date = new Date();
     var formattedDate = []
-    // var minu = date.getMinutes()
     formattedDate.push(date.toISOString().substr(0, 10))
     for (let i = 1; i<=6; i++) {
         date.setDate(date.getDate() - 1);
@@ -21,7 +19,7 @@ export default function QueryForm({getData, Qroom, Qdate, loading}) {
         <form className="form-group">
             <div className="row">
                 <div className="form-group col-md-4">
-                     <label htmlFor="inputRoom">Select Room</label>     
+                    <label htmlFor="inputRoom">Select Room</label>     
                     <select  className="form-control"  
                         id="inputRoom"
                          onChange={Qroom}

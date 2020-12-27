@@ -37,7 +37,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - added *MongoDB* for better reilability.
-- increaded number of appliances.
+- increased number of appliances.
 
 ### Changed
 - fixed rebooting of NodeMCU frequently.

@@ -1,8 +1,7 @@
 import React from 'react'
 
-
 export default function Querycard({
-    hour,  
+    Time,  
     light_1,   
     light_2,  
     Fan_1,  
@@ -11,13 +10,13 @@ export default function Querycard({
     Sensor_2 ,
     Sensor_3 ,
     Sensor_4,
-    endTime}) 
-    {
+    endTime
+}) {
     return (
         <>
         <div className="col-md-4 p-0  col-10 mx-auto">
             <div className="card border-primary ml-2 mb-4 "  >
-            <div className="card-header"> {hour.substr(11,8)} to {endTime} </div>
+            <div className="card-header"> {Time} to {endTime} </div>
                 <div className="card-body text-primary justify-content-center ">
                 <table className="table">
                 <tbody>

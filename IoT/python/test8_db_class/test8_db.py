@@ -3,7 +3,7 @@ import yaml
 import sys
 import paho.mqtt.client as mqtt
 from pymongo import MongoClient
-
+from datetime import datetime as dt
 broker="127.0.0.1"
 
 dic={
@@ -42,14 +42,16 @@ class Room:
         print("in database entry")
         try:
             inpDoc={
-                "Fan1": dic[rname]["Fan 1"]//60,
+                "Fan_1": dic[rname]["Fan 1"]//60,
                 "Light_1":dic[rname]["Light 1"]//60,
                 "Light_2":dic[rname]["Light 2"]//60,
                 "Air_Conditioner":dic[rname]["Air Conditioner"]//60,
                 "Temperature":dic[rname]["Temperature"]/(dic[rname]["Temperaturecount"]+1),
                 "Humidity" : dic[rname]["Humidity"]/(dic[rname]["Humiditycount"]+1),
                 "Gas": dic[rname]["Gas"]/(dic[rname]["Gascount"]+1),
-                "Smoke": dic[rname]["Smoke"]/(dic[rname]["Smokecount"]+1)
+                "Smoke": dic[rname]["Smoke"]/(dic[rname]["Smokecount"]+1),
+                "date":str(dt.now().date()),
+                "Time":str(dt.now().time().replace(microsecond=0))
             }
             myCollection = mydb[rname]
             myCollection.insert_one(inpDoc)

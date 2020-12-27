@@ -10,7 +10,21 @@ const router = new express.Router();
 router.get('/api/get/:room/:date', async (req,res) => {
     try {
         const {room, date} = req.params;
-        res.status(201).send(room);
+        let result
+        switch (room) {
+            case 'livingroom':
+                result = await livingRoom_DB.find({date});
+                break;
+            case 'bedroom1':
+                result = await bedRoom1_DB.find({date});
+                break;
+            case 'bedroom2':
+                result = await bedRoom2_DB.find({date});
+                break;
+            default:
+                break;
+        };
+        res.status(201).send(result);
     } catch (err) {
         res.status(400).send(err);
     }

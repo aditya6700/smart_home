@@ -2,14 +2,14 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js'
-import Home from './Home';
-import Livingroom from './livingroom/Livingroom';
-import Bedroom1 from './bedroom1/Bedroom1';
-import Bedroom2 from './bedroom2/Bedroom2';
-// import Footer from './Footer';
-import Navbar from './Navbar';
-import Query from './Query';
-import Error from './Error';
+import Home from './HomePage/Home';
+import Livingroom from './Rooms/livingroom/Livingroom';
+import Bedroom1 from './Rooms/bedroom1/Bedroom1';
+import Bedroom2 from './Rooms/bedroom2/Bedroom2';
+import Navbar from './Extras/Navbar';
+import Query from './QueryPage/Query';
+import Error from './Extras/Error';
+// import Footer from './Extras/Footer';
 
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
         <Route exact path='/error' component={Error} />
         <Route component={Error} />
       </Switch>
-    {/* <Footer /> */}
+      {/* <Footer /> */}
     </>
   );
 }
